@@ -56,9 +56,9 @@ export class Paynl {
 
             let jsonData = JSON.stringify(data);
             const req = https.request(
-                this.getUrl(controller, action, version),
                 {
                     hostname: this.hostname,
+                    path: this.getUrl(controller, action, version),
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -71,8 +71,6 @@ export class Paynl {
                         console.log(`statusCode: ${response.statusCode}`);
                         console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
                     }
-
-                    response.setEncoding("utf8");
 
                     const chunks: any[] = [];
 
@@ -91,7 +89,30 @@ export class Paynl {
                             if (this.verbose) {
                                 console.log(body);
                             }
-                            const json = JSON.parse(body);
+
+                            let json: any;
+                            try {
+                                json = JSON.parse(body);
+                            } catch (error) {
+                                if (this.verbose) {
+                                    console.error(error);
+                                }
+                                // invalid json
+                                if (response.statusCode < 200 || response.statusCode >= 300) {
+                                    if (body.length == 0) {
+                                        console.error(response.statusCode);
+                                        reject(new PaynlError("Status " + response.statusCode));
+                                        return;
+                                    }
+                                    console.error(response.statusCode + " " + body);
+                                    reject(new PaynlError(body));
+                                    return;
+                                } else {
+                                    // something wrong: throw parse error
+                                    reject(error);
+                                    return;
+                                }
+                            }
 
                             if (response.statusCode < 200 || response.statusCode >= 300) {
                                 if (this.isError(json) !== false) {
@@ -133,7 +154,7 @@ export class Paynl {
     async startTransaction(options: TransactionStartOptions): Promise<StartResult> {
         // Basic validation for non TypeScript environments
         if (!options.amount) {
-            throw new Error("Amount is not set");
+            throw new Error("Amount is not set or 0");
         }
 
         if (!options.returnUrl) {
