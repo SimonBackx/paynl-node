@@ -6,9 +6,10 @@ import * as dateformat from "dateformat";
 
 export interface TransactionStartOptions {
     /**
-     * The total amount for this order
+     * The total amount for this order in cents!
      */
     amount: number;
+
     /**
      * The return url, we will redirect the user to this url after payment and cancellation
      */
@@ -134,7 +135,7 @@ export class TransactionStart {
 
     getForApi() {
         var data = {};
-        data["amount"] = Math.round(this.options.amount * 100);
+        data["amount"] = Math.round(this.options.amount);
         data["finishUrl"] = this.options.returnUrl;
         data["ipAddress"] = this.options.ipAddress;
 
@@ -195,7 +196,7 @@ export class TransactionStart {
                 return {
                     productId: product.id,
                     description: product.name,
-                    price: Math.round(product.price * 100),
+                    price: Math.round(product.price),
                     quantity: product.qty,
                     vatCode: this.calculateVatCode(product.price, product.tax),
                     productType: product.type,
