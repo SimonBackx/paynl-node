@@ -12,7 +12,7 @@ export class PaynlError extends Error {}
 export class Paynl {
     private apiToken: string;
     private serviceId: string;
-    private hostname = "https://rest-api.pay.nl";
+    private hostname = "rest-api.pay.nl";
     private verbose: boolean;
 
     constructor(config: { apiToken: string; serviceId: string; verbose?: boolean }) {
