@@ -175,4 +175,12 @@ export class Paynl {
         response["transactionId"] = transactionId;
         return new TransactionResult(response);
     }
+
+    /**
+     * Request all the available payment methods and settings of the current merchant / service
+     */
+    async getService(): Promise<any> {
+        const result = await this.post("Transaction", "getService", 12, {});
+        return result;
+    }
 }
