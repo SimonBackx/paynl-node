@@ -123,6 +123,11 @@ export class Paynl {
                                 return;
                             }
 
+                            if (this.isError(json) !== false) {
+                                reject(new PaynlError(this.isError(json)));
+                                return;
+                            }
+
                             resolve(json);
                         } catch (error) {
                             if (this.verbose) {
