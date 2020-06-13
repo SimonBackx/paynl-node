@@ -2,6 +2,20 @@
 
 Simple PayNL SDK for Node.js that uses promises and no singletons
 
+## Installation
+
+### Yarn
+
+```
+yarn add @simonbackx/paynl-node
+```
+
+### NPM
+
+```
+npm install @simonbackx/paynl-node
+```
+
 ## Usage
 
 You can set verbose to `true` during development, but disable it in production.
