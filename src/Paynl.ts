@@ -3,6 +3,7 @@ import { IncomingMessage } from "http";
 import { TransactionStart, TransactionStartOptions } from "./interfaces/TransactionStart";
 import { StartResult } from "./interfaces/StartResult";
 import { TransactionResult } from "./interfaces/TransactionResult";
+import { InvoiceData } from "./interfaces/InvoiceData";
 
 export class PaynlError extends Error {}
 /**
@@ -179,6 +180,10 @@ export class Paynl {
         const response = await this.post("transaction", "info", 8, { transactionId: transactionId });
         response["transactionId"] = transactionId;
         return new TransactionResult(response);
+    }
+
+    async addInvoice(invoiceData: InvoiceData): Promise<void> {
+        await this.post("Alliance", "addInvoice", 2, invoiceData);
     }
 
     /**
