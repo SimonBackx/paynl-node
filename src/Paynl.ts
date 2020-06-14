@@ -51,10 +51,8 @@ export class Paynl {
      */
     private post(controller: string, action: string, version: number, data = {}): Promise<any> {
         return new Promise((resolve, reject) => {
-            // Append credentials in body
+            // service id or merchant id should get added outside this method
             data["token"] = this.apiToken;
-            data["serviceId"] = this.serviceId;
-
             let jsonData = JSON.stringify(data);
             const req = https.request(
                 {
@@ -172,12 +170,21 @@ export class Paynl {
         }
 
         const startData = new TransactionStart(options);
-        const result = await this.post("transaction", "start", 8, startData.getForApi());
+
+        const data = startData.getForApi();
+        // Set service id
+        data["serviceId"] = this.serviceId;
+
+        const result = await this.post("transaction", "start", 8, data);
         return new StartResult(result);
     }
 
     async getTransaction(transactionId: string): Promise<TransactionResult> {
-        const response = await this.post("transaction", "info", 8, { transactionId: transactionId });
+        const data = { transactionId: transactionId };
+        // Set service id
+        data["serviceId"] = this.serviceId;
+
+        const response = await this.post("transaction", "info", 8, data);
         response["transactionId"] = transactionId;
         return new TransactionResult(response);
     }
@@ -190,7 +197,7 @@ export class Paynl {
      * Request all the available payment methods and settings of the current merchant / service
      */
     async getService(): Promise<any> {
-        const result = await this.post("Transaction", "getService", 12, {});
+        const result = await this.post("Transaction", "getService", 12, { serviceId: this.serviceId });
         return result;
     }
 }
