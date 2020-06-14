@@ -56,6 +56,10 @@ export class Paynl {
             data["serviceId"] = this.serviceId;
 
             let jsonData = JSON.stringify(data);
+
+            if (this.verbose) {
+                console.log(jsonData);
+            }
             const req = https.request(
                 {
                     hostname: this.hostname,
