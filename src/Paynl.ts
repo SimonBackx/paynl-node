@@ -182,8 +182,8 @@ export class Paynl {
         return new TransactionResult(response);
     }
 
-    async addInvoice(invoiceData: InvoiceData): Promise<void> {
-        await this.post("Alliance", "addInvoice", 2, invoiceData);
+    async addInvoice(invoiceData: InvoiceData): Promise<{ referenceId: string }> {
+        return await this.post("Alliance", "addInvoice", 2, invoiceData);
     }
 
     /**
