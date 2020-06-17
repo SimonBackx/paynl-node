@@ -46,16 +46,31 @@ export class Paynl {
         return false;
     }
 
+    private objectToQueryString(obj) {
+        const str: string[] = [];
+        // eslint-disable-next-line no-prototype-builtins
+        for (const p in obj)
+            if (obj.hasOwnProperty(p)) {
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        return str.join("&");
+    }
+
     /**
      * Do a post request on the API.
      */
-    private post(controller: string, action: string, version: number, data = {}): Promise<any> {
+    private post(controller: string, action: string, version: number, data = {}, type = "json"): Promise<any> {
         return new Promise((resolve, reject) => {
             // Append credentials in body
             data["token"] = this.apiToken;
             data["serviceId"] = this.serviceId;
 
-            let jsonData = JSON.stringify(data);
+            let jsonData;
+            if (type == "json") {
+                jsonData = JSON.stringify(data);
+            } else {
+                jsonData = this.objectToQueryString(data);
+            }
 
             if (this.verbose) {
                 console.log(jsonData);
@@ -66,7 +81,7 @@ export class Paynl {
                     path: this.getUrl(controller, action, version),
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": type == "json" ? "application/json" : "application/x-www-form-urlencoded",
                         "Content-Length": jsonData.length,
                     },
                     timeout: 10000,
@@ -186,8 +201,14 @@ export class Paynl {
         return new TransactionResult(response);
     }
 
+    async getTransactionDetails(transactionId: string): Promise<any> {
+        const response = await this.post("transaction", "details", 14, { transactionId: transactionId });
+        response["transactionId"] = transactionId;
+        return response;
+    }
+
     async addInvoice(invoiceData: InvoiceData): Promise<{ referenceId: string }> {
-        return await this.post("Alliance", "addInvoice", 2, invoiceData);
+        return await this.post("Alliance", "addInvoice", 2, invoiceData, "urlencoded");
     }
 
     /**
