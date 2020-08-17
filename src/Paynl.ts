@@ -208,7 +208,7 @@ export class Paynl {
     }
 
     async addInvoice(invoiceData: InvoiceData): Promise<{ referenceId: string }> {
-        return await this.post("Alliance", "addInvoice", 2, invoiceData, "urlencoded");
+        return await this.post("Alliance", "addInvoice", 6, invoiceData);
     }
 
     /**
