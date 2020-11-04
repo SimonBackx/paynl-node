@@ -2,7 +2,7 @@
     "name": "@simonbackx/paynl-node",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "scripts": {
         "test": "jest --setupFiles dotenv/config",
         "build": "tsc -p . --declaration",
@@ -15,6 +15,7 @@
         "dateformat": "^3.0.3"
     },
     "devDependencies": {
+        "@simonbackx/simple-encoding": "^1.8.0",
         "@types/jest": "^25.1.4",
         "@types/node": "^14.0.5",
         "@typescript-eslint/eslint-plugin": "^2.28.0",
@@ -27,8 +28,7 @@
         "jest-extended": "^0.11.5",
         "ts-jest": "^25.4.0",
         "ts-node": "^8.6.2",
-        "typescript": "^3.8.3",
-        "@simonbackx/simple-encoding": "^1.8.0"
+        "typescript": "^3.8.3"
     },
     "peerDependencies": {
         "@simonbackx/simple-encoding": "^1.8.0"
