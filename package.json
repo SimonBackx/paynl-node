@@ -12,7 +12,6 @@
         "dist"
     ],
     "dependencies": {
-        "@simonbackx/simple-encoding": "^1.8.0",
         "dateformat": "^3.0.3"
     },
     "devDependencies": {
@@ -28,7 +27,8 @@
         "jest-extended": "^0.11.5",
         "ts-jest": "^25.4.0",
         "ts-node": "^8.6.2",
-        "typescript": "^3.8.3"
+        "typescript": "^3.8.3",
+        "@simonbackx/simple-encoding": "^1.8.0"
     },
     "peerDependencies": {
         "@simonbackx/simple-encoding": "^1.8.0"
