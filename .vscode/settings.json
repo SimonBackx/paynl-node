@@ -9,15 +9,23 @@
         "**/node_modules": true
     },
     "eslint.options": {
-        "extensions": [".js", ".ts"]
+        "extensions": [
+            ".js",
+            ".ts"
+        ]
     },
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "editor.formatOnPaste": true,
     "eslint.format.enable": true,
-
     // Prettier acts fucked up in vue, typescript and javascript, so we let eslint format vue files
-    "eslint.validate": ["typescript", "javascript"],
-    "prettier.disableLanguages": ["typescript", "javascript"]
+    "eslint.validate": [
+        "typescript",
+        "javascript"
+    ],
+    "prettier.disableLanguages": [
+        "typescript",
+        "javascript"
+    ]
 }
